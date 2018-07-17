@@ -93,7 +93,7 @@ public class ToxicBot {
             JDABuilder bot = new JDABuilder(AccountType.BOT);
             bot.setToken("NDY3MDg4MDkzMDMyMjE4NjQ0.DilhMw.OPu2a1HaLUhdpTsjw_KaO5QJHzk");
 
-            bot.setGame(Game.streaming("Grand Theft Auto V", "https://www.twitch.tv/ToxicJohnTV"));
+            bot.setGame(Game.streaming("Play with ToxicMenu 1.8", "https://www.twitch.tv/ToxicJohnTV"));
 
             JDA jda = bot.buildAsync();
             jda.setAutoReconnect(true);

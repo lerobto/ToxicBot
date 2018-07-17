@@ -19,8 +19,6 @@ public class GetDataCommand extends Command {
         if (args.length != 1) {
             Member member = message.getMember();
 
-            ToxicBot.getTerminal().writeMessage(message.getId());
-
             if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
                 message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
                 return null;
