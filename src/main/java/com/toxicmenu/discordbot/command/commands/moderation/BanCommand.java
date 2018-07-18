@@ -43,8 +43,8 @@ public class BanCommand extends Command {
                 message.getTextChannel().sendMessage(messageEmbed).complete();
             }
 
-            if(ToxicUser.isStaff(message.getMember(), message)) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You cannot mute this User!").build()).complete();
+            if(ToxicUser.isStaff(target, message)) {
+                message.getTextChannel().sendMessage(MSGS.error().setDescription("You cannot ban this User!").build()).complete();
                 return null;
             }
 
@@ -66,10 +66,13 @@ public class BanCommand extends Command {
 
             sendPrivateMessage(target.getUser(), "You have been banned from the ToxicMenu Discord Server!");
             sendPrivateMessage(target.getUser(), "Reason: " + reason);
-            sendPrivateMessage(target.getUser(), "**You will be unbanned in 30 Days**");
 
-            Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
-            guild.getController().ban(target, 30).queue();
+            try {
+                Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
+                guild.getController().ban(target, 7).queue();
+            } catch(Exception ex) {
+                sendPrivateMessage(member.getUser(), MSGS.warn().setDescription("Ooops an error occured! \n Error: `" + ex.getMessage() + "`").build());
+            }
 
             return CommandResponse.ACCEPTED;
         } else {

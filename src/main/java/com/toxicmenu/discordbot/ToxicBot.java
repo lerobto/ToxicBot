@@ -3,6 +3,7 @@ package com.toxicmenu.discordbot;
 import com.toxicmenu.discordbot.command.CommandRegistry;
 import com.toxicmenu.discordbot.command.commands.CommandListCommand;
 import com.toxicmenu.discordbot.command.commands.InfoCommand;
+import com.toxicmenu.discordbot.command.commands.administration.LicenseCommand;
 import com.toxicmenu.discordbot.command.commands.administration.RoleCommand;
 import com.toxicmenu.discordbot.command.commands.administration.StaffCommand;
 import com.toxicmenu.discordbot.command.commands.development.GetDataCommand;
@@ -12,6 +13,7 @@ import com.toxicmenu.discordbot.command.commands.moderation.*;
 import com.toxicmenu.discordbot.command.impl.DefaultCommandRegistry;
 import com.toxicmenu.discordbot.listener.JoinEvent;
 import com.toxicmenu.discordbot.listener.ReconnectListener;
+import com.toxicmenu.discordbot.mysql.SQLDatabaseConnection;
 import com.toxicmenu.log.SystemLogger;
 import com.toxicmenu.terminal.Terminal;
 import lombok.Getter;
@@ -43,6 +45,8 @@ public class ToxicBot {
     private static boolean debug, devMode, closed = false;
     @Getter
     private static long startTime;
+    @Getter
+    private static SQLDatabaseConnection sqlDatabaseConnection;
 
     public static void shutdown() {
         Object object = closeLock;
@@ -103,6 +107,14 @@ public class ToxicBot {
             jda.setAutoReconnect(true);
 
             setJda(jda);
+
+            sqlDatabaseConnection = new SQLDatabaseConnection(new SQLDatabaseConnection.SQLConfiguration.MySQLConfiguration("toxicmenu.com", 3306, "toxicmenu", "toxicmenu", "und53HgnGcgRGBNy", true, 12));
+            if (!sqlDatabaseConnection.connect()) {
+                System.err.println("Cant connect to mysql.");
+                System.err.println("Exiting!");
+                System.exit(-1);
+                return;
+            }
         } catch (Exception e) {
             getTerminal().writeMessage("Error: " + e.getMessage());
         }
@@ -116,6 +128,8 @@ public class ToxicBot {
         getJda().addEventListener(new JoinEvent());
         getJda().addEventListener(new ReconnectListener());
         registerCommands();
+
+        getTerminal().writeMessage("Successfully started!");
     }
 
     private void registerCommands() {
@@ -132,6 +146,7 @@ public class ToxicBot {
         this.commandRegistry.registerCommand(new RoleCommand());
         this.commandRegistry.registerCommand(new StaffCommand());
         this.commandRegistry.registerCommand(new InfoCommand());
+        this.commandRegistry.registerCommand(new LicenseCommand());
         commandListCommand.initialize();
     }
 }

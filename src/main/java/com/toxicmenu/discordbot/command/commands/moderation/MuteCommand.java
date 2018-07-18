@@ -49,7 +49,7 @@ public class MuteCommand extends Command {
                 message.getTextChannel().sendMessage(messageEmbed).complete();
             }
 
-            if(ToxicUser.isStaff(message.getMember(), message)) {
+            if(ToxicUser.isStaff(target, message)) {
                 message.getTextChannel().sendMessage(MSGS.error().setDescription("You cannot mute this User!").build()).complete();
                 return null;
             }

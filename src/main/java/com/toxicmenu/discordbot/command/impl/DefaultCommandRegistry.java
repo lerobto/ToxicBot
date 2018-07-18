@@ -53,7 +53,7 @@ public class DefaultCommandRegistry extends ListenerAdapter implements CommandRe
         if (commandResponse == CommandResponse.SYNTAX_PRINTED)
             message.getTextChannel()
                     .sendMessage(
-                            MSGS.error().setDescription(MessageFormat.format("You must use `{0}{1} {2}`", PREFIX, command.getCommandName(), command.getSyntax())).build())
+                            MSGS.warn().setDescription(MessageFormat.format("You must use `{0}{1} {2}`", PREFIX, command.getCommandName(), command.getSyntax())).build())
                     .complete();
     }
 
