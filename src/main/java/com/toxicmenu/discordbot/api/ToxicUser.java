@@ -11,10 +11,10 @@ public class ToxicUser {
             if(role.getName().equalsIgnoreCase("Moderators") || (role.getName().equalsIgnoreCase("Admins") || (role.getName().equalsIgnoreCase("Agent") || (role.getName().equalsIgnoreCase("Ruski") || (role.getName().equalsIgnoreCase("Owner")))))) {
                 return true;
             } else if(role.getName().equalsIgnoreCase("User")) {
-                message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
+                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
                 return false;
             } else {
-                message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
+                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
                 return false;
             }
         }
