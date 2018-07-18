@@ -1,6 +1,7 @@
 package com.toxicmenu.discordbot.command.commands.moderation;
 
 import com.toxicmenu.discordbot.ToxicBot;
+import com.toxicmenu.discordbot.api.MSGS;
 import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
@@ -40,6 +41,11 @@ public class BanCommand extends Command {
                 final MessageEmbed messageEmbed = embedBuilder.build();
 
                 message.getTextChannel().sendMessage(messageEmbed).complete();
+            }
+
+            if(ToxicUser.isStaff(message.getMember(), message)) {
+                message.getTextChannel().sendMessage(MSGS.error().setDescription("You cannot mute this User!").build()).complete();
+                return null;
             }
 
             final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.GREEN).setTitle("Information - Ban")

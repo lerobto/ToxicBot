@@ -1,6 +1,7 @@
 package com.toxicmenu.discordbot.command.commands.moderation;
 
 import com.toxicmenu.discordbot.api.MSGS;
+import com.toxicmenu.discordbot.api.ToxicChannel;
 import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
@@ -28,6 +29,11 @@ public class ClearCommand extends Command {
             member.getRoles();
 
             if(!ToxicUser.isTeam(message.getMember(), message)) {
+                return null;
+            }
+
+            if(ToxicChannel.checkWhitelist(message.getTextChannel().getId())) {
+                message.getTextChannel().sendMessage(MSGS.error().setDescription("You cannot clear messages in this Channel!").build()).complete();
                 return null;
             }
 

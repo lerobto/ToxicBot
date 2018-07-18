@@ -51,29 +51,12 @@ public class ServerStatsCommand extends Command {
     private void addInfoToMessageEmbed(EmbedBuilder embedBuilder, Guild guild) {
         embedBuilder.addField("Name: ", "`" + guild.getName() + "`", false);
         embedBuilder.addField("ID: ", "`" + guild.getId() + "`", false);
+        embedBuilder.addField("Owner: ", guild.getOwner().getAsMention(), false);
         embedBuilder.addField("Users: ", "`" + String.valueOf(guild.getMembers().size()) + "`", false);
         embedBuilder.addField("Categories: ", "`" + String.valueOf(guild.getCategories().size()) + "`", false);
         embedBuilder.addField("Text Channels: ", "`" + String.valueOf(guild.getTextChannels().size()) + "`", false);
         embedBuilder.addField("Voice Channels: ", "`" + String.valueOf(guild.getVoiceChannels().size()) + "`", false);
         embedBuilder.addField("Emoij's: ", "`" + guild.getEmotes().size() + "`", false);
         embedBuilder.addField("Creation Time: ", "`" + guild.getCreationTime().toString() + "`", false);
-    }
-
-    public void sendPrivateMessage(User user, String message) {
-        // openPrivateChannel provides a RestAction<PrivateChannel>
-        // which means it supplies you with the resulting channel
-        user.openPrivateChannel().queue((channel) ->
-        {
-            channel.sendMessage(message).queue();
-        });
-    }
-
-    public void sendPrivateMessage(User user, MessageEmbed message) {
-        // openPrivateChannel provides a RestAction<PrivateChannel>
-        // which means it supplies you with the resulting channel
-        user.openPrivateChannel().queue((channel) ->
-        {
-            channel.sendMessage(message).queue();
-        });
     }
 }

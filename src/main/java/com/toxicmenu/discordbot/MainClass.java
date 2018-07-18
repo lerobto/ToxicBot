@@ -1,10 +1,13 @@
 package com.toxicmenu.discordbot;
 
+import com.toxicmenu.discordbot.api.ToxicChannel;
 import com.toxicmenu.log.JettySystemLogger;
 import com.toxicmenu.log.SystemLogger;
 import com.toxicmenu.terminal.JLineTerminal;
 import com.toxicmenu.terminal.VanillaTerminal;
 import org.eclipse.jetty.util.log.Log;
+
+import java.util.ArrayList;
 
 public class MainClass {
 
@@ -22,5 +25,6 @@ public class MainClass {
             System.setProperty("file.encoding", "UTF-8");
         }
         new ToxicBot(args);
+        ToxicChannel.whitelist = new ArrayList<>();
     }
 }

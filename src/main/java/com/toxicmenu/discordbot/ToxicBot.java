@@ -2,6 +2,8 @@ package com.toxicmenu.discordbot;
 
 import com.toxicmenu.discordbot.command.CommandRegistry;
 import com.toxicmenu.discordbot.command.commands.CommandListCommand;
+import com.toxicmenu.discordbot.command.commands.administration.RoleCommand;
+import com.toxicmenu.discordbot.command.commands.administration.StaffCommand;
 import com.toxicmenu.discordbot.command.commands.development.GetDataCommand;
 import com.toxicmenu.discordbot.command.commands.development.GetIdCommand;
 import com.toxicmenu.discordbot.command.commands.development.ServerStatsCommand;
@@ -126,6 +128,8 @@ public class ToxicBot {
         this.commandRegistry.registerCommand(new UnbanCommand());
         this.commandRegistry.registerCommand(new UnmuteCommand());
         this.commandRegistry.registerCommand(new ServerStatsCommand());
+        this.commandRegistry.registerCommand(new RoleCommand());
+        this.commandRegistry.registerCommand(new StaffCommand());
         commandListCommand.initialize();
     }
 }
