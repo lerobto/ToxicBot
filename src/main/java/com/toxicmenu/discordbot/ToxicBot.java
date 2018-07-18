@@ -2,12 +2,13 @@ package com.toxicmenu.discordbot;
 
 import com.toxicmenu.discordbot.command.CommandRegistry;
 import com.toxicmenu.discordbot.command.commands.CommandListCommand;
-import com.toxicmenu.discordbot.command.commands.EchoCommand;
 import com.toxicmenu.discordbot.command.commands.development.GetDataCommand;
-import com.toxicmenu.discordbot.command.commands.moderation.BanCommand;
-import com.toxicmenu.discordbot.command.commands.moderation.ClearCommand;
-import com.toxicmenu.discordbot.command.commands.moderation.MuteCommand;
+import com.toxicmenu.discordbot.command.commands.development.GetIdCommand;
+import com.toxicmenu.discordbot.command.commands.development.ServerStatsCommand;
+import com.toxicmenu.discordbot.command.commands.moderation.*;
 import com.toxicmenu.discordbot.command.impl.DefaultCommandRegistry;
+import com.toxicmenu.discordbot.listener.JoinEvent;
+import com.toxicmenu.discordbot.listener.ReconnectListener;
 import com.toxicmenu.log.SystemLogger;
 import com.toxicmenu.terminal.Terminal;
 import lombok.Getter;
@@ -109,15 +110,22 @@ public class ToxicBot {
         }
 
         getJda().addEventListener(this.commandRegistry);
+        getJda().addEventListener(new JoinEvent());
+        getJda().addEventListener(new ReconnectListener());
         registerCommands();
     }
 
     private void registerCommands() {
         final CommandListCommand commandListCommand = new CommandListCommand();
         this.commandRegistry.registerCommand(commandListCommand);
-        this.commandRegistry.registerCommand(new EchoCommand());
         this.commandRegistry.registerCommand(new GetDataCommand());
+        this.commandRegistry.registerCommand(new GetIdCommand());
+        this.commandRegistry.registerCommand(new ClearCommand());
+        this.commandRegistry.registerCommand(new BanCommand());
         this.commandRegistry.registerCommand(new MuteCommand());
+        this.commandRegistry.registerCommand(new UnbanCommand());
+        this.commandRegistry.registerCommand(new UnmuteCommand());
+        this.commandRegistry.registerCommand(new ServerStatsCommand());
         commandListCommand.initialize();
     }
 }

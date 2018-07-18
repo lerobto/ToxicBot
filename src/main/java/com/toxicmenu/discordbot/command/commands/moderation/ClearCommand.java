@@ -27,7 +27,7 @@ public class ClearCommand extends Command {
             Member member = message.getMember();
             member.getRoles();
 
-            if(!ToxicUser.isTeam(member, message)) {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
                 return null;
             }
 
@@ -148,6 +148,10 @@ public class ClearCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
+                return null;
+            }
+
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

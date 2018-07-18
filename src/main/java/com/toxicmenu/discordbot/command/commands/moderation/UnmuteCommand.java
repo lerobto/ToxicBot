@@ -20,7 +20,7 @@ public class UnmuteCommand extends Command {
         if (args.length == 1 || args.length == 2) {
             Member member = message.getMember();
 
-            if(!ToxicUser.isTeam(member, message)) {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
                 return null;
             }
 
@@ -54,13 +54,17 @@ public class UnmuteCommand extends Command {
 
             //ToxicBot.getTerminal().writeMessage("");
 
-            sendPrivateMessage(target.getUser(), "You have been unbanned from the ToxicMenu Discord Server!");
+            sendPrivateMessage(target.getUser(), "You have been unmuted from the ToxicMenu Discord Server!");
 
             Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
             guild.getController().removeSingleRoleFromMember(target, guild.getRoleById("467123966096441384")).queue();
 
             return CommandResponse.ACCEPTED;
         } else {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
+                return null;
+            }
+
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

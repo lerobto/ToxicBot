@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class MuteCommand extends Command {
     public MuteCommand() {
-        super("mute", "<@User#XXXX> <Reason>", "This Command can mute users. Only usable as Moderator");
+        super("mute", "<@User#XXXX> [Reason]", "This Command can mute users. Only usable as Moderator");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class MuteCommand extends Command {
                 reason = args[1];
             }
 
-            if(!ToxicUser.isTeam(member, message)) {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
                 return null;
             }
 
@@ -72,6 +72,8 @@ public class MuteCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
+            ToxicUser.isTeam(message.getMember(), message);
+
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

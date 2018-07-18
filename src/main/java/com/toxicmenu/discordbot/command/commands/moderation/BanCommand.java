@@ -20,20 +20,8 @@ public class BanCommand extends Command {
             Member member = message.getMember();
             String reason = "No Reason";
 
-            if(!ToxicUser.isTeam(member, message)) {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
                 return null;
-            }
-
-            for(Role role : member.getRoles()) {
-                if(role.getName().equalsIgnoreCase("Moderators") || (role.getName().equalsIgnoreCase("Admins") || (role.getName().equalsIgnoreCase("Agent") || (role.getName().equalsIgnoreCase("Ruski") || (role.getName().equalsIgnoreCase("Owner")))))) {
-                    break;
-                } else if(role.getName().equalsIgnoreCase("User")) {
-                    message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
-                    return null;
-                } else {
-                    message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
-                    return null;
-                }
             }
 
             Member target = null;
@@ -79,6 +67,10 @@ public class BanCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
+                return null;
+            }
+
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

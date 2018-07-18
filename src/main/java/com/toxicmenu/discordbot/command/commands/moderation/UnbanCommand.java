@@ -20,7 +20,7 @@ public class UnbanCommand extends Command {
         if (args.length == 1 || args.length == 2) {
             Member member = message.getMember();
 
-            if(!ToxicUser.isTeam(member, message)) {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
                 return null;
             }
 
@@ -61,6 +61,10 @@ public class UnbanCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
+            if(!ToxicUser.isTeam(message.getMember(), message)) {
+                return null;
+            }
+
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

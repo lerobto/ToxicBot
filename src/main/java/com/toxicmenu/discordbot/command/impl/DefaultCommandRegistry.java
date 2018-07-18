@@ -1,5 +1,6 @@
 package com.toxicmenu.discordbot.command.impl;
 
+import com.toxicmenu.discordbot.api.MSGS;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandRegistry;
 import com.toxicmenu.discordbot.command.CommandResponse;
@@ -45,14 +46,14 @@ public class DefaultCommandRegistry extends ListenerAdapter implements CommandRe
         String[] args = Arrays.copyOfRange(splitted, 1, splitted.length);
         Command command = getCommandObjectByName(commandName);
         if (command == null) {
-            message.getTextChannel().sendMessage("The Command was not found.").complete();
+            //message.getTextChannel().sendMessage("The Command was not found.").complete();
             return;
         }
         CommandResponse commandResponse = command.triggerCommand(message, args);
         if (commandResponse == CommandResponse.SYNTAX_PRINTED)
             message.getTextChannel()
                     .sendMessage(
-                            MessageFormat.format("You must use `{0}{1} {2}`", PREFIX, command.getCommandName(), command.getSyntax()))
+                            MSGS.error().setDescription(MessageFormat.format("You must use `{0}{1} {2}`", PREFIX, command.getCommandName(), command.getSyntax())).build())
                     .complete();
     }
 

@@ -1,6 +1,5 @@
 package com.toxicmenu.discordbot.command.commands.development;
 
-import com.toxicmenu.discordbot.ToxicBot;
 import com.toxicmenu.discordbot.api.MSGS;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
@@ -8,11 +7,10 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 
 import java.awt.*;
-import java.util.List;
 
-public class GetDataCommand extends Command {
-    public GetDataCommand() {
-        super("getdata", "", "This Command can be get Data like IDs from User");
+public class ServerStatsCommand extends Command {
+    public ServerStatsCommand() {
+        super("serverstats", "", "This Command can be get Data like IDs from User");
     }
 
     @Override
@@ -25,12 +23,12 @@ public class GetDataCommand extends Command {
                 return null;
             }
 
-            final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.WHITE).setTitle("Profile Data")
-                    .setFooter("User: " + message.getAuthor().getName(), null);
-            addInfoToMessageEmbed(embedBuilder, message.getAuthor());
+            final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.WHITE).setTitle("Server Informations")
+                    .setFooter("Server: " + member.getGuild().getName(), null);
+            addInfoToMessageEmbed(embedBuilder, member.getGuild());
             final MessageEmbed messageEmbed = embedBuilder.build();
 
-            sendPrivateMessage(message.getAuthor(), messageEmbed);
+            message.getTextChannel().sendMessage(messageEmbed).complete();
 
             /*for(Role role : message.getMember().getGuild().getRoles()) {
                 if(role.getName().equals("Muted")) {
@@ -50,15 +48,15 @@ public class GetDataCommand extends Command {
         }
     }
 
-    private void addInfoToMessageEmbed(EmbedBuilder embedBuilder, User user) {
-        embedBuilder.addField("Name: ",
-                "`" + user.getName() + "`", false);
-        embedBuilder.addField("ID: ",
-                "`" + user.getId() + "`", false);
-        embedBuilder.addField("Mention: ",
-                user.getAsMention(), false);
-        embedBuilder.addField("Creation Time: ",
-                "`" + user.getCreationTime().toString() + "`", false);
+    private void addInfoToMessageEmbed(EmbedBuilder embedBuilder, Guild guild) {
+        embedBuilder.addField("Name: ", "`" + guild.getName() + "`", false);
+        embedBuilder.addField("ID: ", "`" + guild.getId() + "`", false);
+        embedBuilder.addField("Users: ", "`" + String.valueOf(guild.getMembers().size()) + "`", false);
+        embedBuilder.addField("Categories: ", "`" + String.valueOf(guild.getCategories().size()) + "`", false);
+        embedBuilder.addField("Text Channels: ", "`" + String.valueOf(guild.getTextChannels().size()) + "`", false);
+        embedBuilder.addField("Voice Channels: ", "`" + String.valueOf(guild.getVoiceChannels().size()) + "`", false);
+        embedBuilder.addField("Emoij's: ", "`" + guild.getEmotes().size() + "`", false);
+        embedBuilder.addField("Creation Time: ", "`" + guild.getCreationTime().toString() + "`", false);
     }
 
     public void sendPrivateMessage(User user, String message) {

@@ -8,29 +8,36 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 
 import java.awt.*;
-import java.util.List;
 
-public class GetDataCommand extends Command {
-    public GetDataCommand() {
-        super("getdata", "", "This Command can be get Data like IDs from User");
+public class GetIdCommand extends Command {
+
+    public GetIdCommand() {
+        super("getdataforrank", "<Rank>", "This Command can be get Data like IDs from User");
     }
 
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
         Member member = message.getMember();
 
-        if (args.length == 0) {
+        if (args.length == 1) {
             if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
+                message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
                 return null;
             }
 
-            final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.WHITE).setTitle("Profile Data")
-                    .setFooter("User: " + message.getAuthor().getName(), null);
-            addInfoToMessageEmbed(embedBuilder, message.getAuthor());
-            final MessageEmbed messageEmbed = embedBuilder.build();
-
-            sendPrivateMessage(message.getAuthor(), messageEmbed);
+            try {
+                final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.WHITE).setTitle("Rank Data")
+                        .setFooter("Rank: " + args[0], null);
+                for (Role role : ToxicBot.getJda().getRoles()) {
+                    if(role.getName().equalsIgnoreCase(args[0])) {
+                        addInfoToMessageEmbed(embedBuilder, role);
+                    }
+                }
+                final MessageEmbed messageEmbed = embedBuilder.build();
+                sendPrivateMessage(message.getAuthor(), messageEmbed);
+            } catch (Exception e) {
+                sendPrivateMessage(message.getAuthor(), MSGS.error().setDescription("We had some errors to give you Informations about the Rank `" + args[0] + "`").build());
+            }
 
             /*for(Role role : message.getMember().getGuild().getRoles()) {
                 if(role.getName().equals("Muted")) {
@@ -42,7 +49,7 @@ public class GetDataCommand extends Command {
             return CommandResponse.ACCEPTED;
         } else {
             if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
+                message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
                 return null;
             }
 
@@ -50,15 +57,17 @@ public class GetDataCommand extends Command {
         }
     }
 
-    private void addInfoToMessageEmbed(EmbedBuilder embedBuilder, User user) {
-        embedBuilder.addField("Name: ",
-                "`" + user.getName() + "`", false);
+    private void addInfoToMessageEmbed(EmbedBuilder embedBuilder, Role role) {
+        embedBuilder.addField("Rank Name: ",
+                "`" + role.getName() + "`", false);
         embedBuilder.addField("ID: ",
-                "`" + user.getId() + "`", false);
+                "`" + role.getId() + "`", false);
+        embedBuilder.addField("LongID: ",
+                "`" + String.valueOf(role.getIdLong()) + "`", false);
         embedBuilder.addField("Mention: ",
-                user.getAsMention(), false);
+                role.getAsMention(), false);
         embedBuilder.addField("Creation Time: ",
-                "`" + user.getCreationTime().toString() + "`", false);
+                "`" + role.getCreationTime().toString() + "`", false);
     }
 
     public void sendPrivateMessage(User user, String message) {
