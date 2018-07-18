@@ -13,12 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by GalaxyHD on 11.09.2017.
- */
 public class DefaultCommandRegistry extends ListenerAdapter implements CommandRegistry {
 
-    private static final String PREFIX = "!";
+    private static final String PREFIX = ".";
     private List<Command> commands = new ArrayList<>();
 
     @Override

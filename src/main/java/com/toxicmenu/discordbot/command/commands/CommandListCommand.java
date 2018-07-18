@@ -33,7 +33,7 @@ public class CommandListCommand extends Command {
     private static final int ITEM_AMOUNT_PER_SITE = 4;
 
     public CommandListCommand() {
-        super("commandlist", "", "Gives you an overview of all commands.");
+        super("help", "", "Gives you an overview of all commands.");
     }
 
     public void initialize() {
