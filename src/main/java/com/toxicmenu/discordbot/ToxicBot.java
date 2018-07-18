@@ -2,6 +2,7 @@ package com.toxicmenu.discordbot;
 
 import com.toxicmenu.discordbot.command.CommandRegistry;
 import com.toxicmenu.discordbot.command.commands.CommandListCommand;
+import com.toxicmenu.discordbot.command.commands.InfoCommand;
 import com.toxicmenu.discordbot.command.commands.administration.RoleCommand;
 import com.toxicmenu.discordbot.command.commands.administration.StaffCommand;
 import com.toxicmenu.discordbot.command.commands.development.GetDataCommand;
@@ -28,7 +29,8 @@ public class ToxicBot {
     protected static SystemLogger logger;
     @Getter
     private static String version = "v1.0";
-    private static boolean closed = false;
+    @Getter
+    private static String lastBuild = "31.12.1970 23:59:59";
     private static Object closeLock;
     @Getter
     @Setter
@@ -38,9 +40,7 @@ public class ToxicBot {
     @Getter
     private CommandRegistry commandRegistry;
     @Getter
-    private static boolean debug;
-    @Getter
-    private static boolean devMode;
+    private static boolean debug, devMode, closed = false;
     @Getter
     private static long startTime;
 
@@ -66,7 +66,8 @@ public class ToxicBot {
         commandRegistry = new DefaultCommandRegistry();
 
         instance = this;
-        version = "v1.0"; //TODO: Change version every Update
+        version = "v1.0.1-DEV"; //TODO: Change version every Update
+        lastBuild = "18. July 2018 16:10:30";
         CommandLine cmd;
         Options options = new Options();
         //options.addOption(Option.builder().argName("COMMAND_TEMPLATE").longOpt("COMMAND_TEMPLATE").desc("COMMAND_DESCRIPTION").hasArg(false).required(false).build());
@@ -119,7 +120,7 @@ public class ToxicBot {
 
     private void registerCommands() {
         final CommandListCommand commandListCommand = new CommandListCommand();
-        this.commandRegistry.registerCommand(commandListCommand);
+        //this.commandRegistry.registerCommand(commandListCommand);
         this.commandRegistry.registerCommand(new GetDataCommand());
         this.commandRegistry.registerCommand(new GetIdCommand());
         this.commandRegistry.registerCommand(new ClearCommand());
@@ -130,6 +131,7 @@ public class ToxicBot {
         this.commandRegistry.registerCommand(new ServerStatsCommand());
         this.commandRegistry.registerCommand(new RoleCommand());
         this.commandRegistry.registerCommand(new StaffCommand());
+        this.commandRegistry.registerCommand(new InfoCommand());
         commandListCommand.initialize();
     }
 }

@@ -16,4 +16,8 @@ public class MSGS {
     public static EmbedBuilder warn() {
         return new EmbedBuilder().setColor(Color.ORANGE);
     }
+
+    public static EmbedBuilder block() {
+        return new EmbedBuilder().setColor(Color.BLACK);
+    }
 }
