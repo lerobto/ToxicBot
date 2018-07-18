@@ -3,6 +3,7 @@ package com.toxicmenu.discordbot;
 import com.toxicmenu.discordbot.command.CommandRegistry;
 import com.toxicmenu.discordbot.command.commands.CommandListCommand;
 import com.toxicmenu.discordbot.command.commands.InfoCommand;
+import com.toxicmenu.discordbot.command.commands.VerifyCommand;
 import com.toxicmenu.discordbot.command.commands.administration.LicenseCommand;
 import com.toxicmenu.discordbot.command.commands.administration.RoleCommand;
 import com.toxicmenu.discordbot.command.commands.administration.StaffCommand;
@@ -11,7 +12,8 @@ import com.toxicmenu.discordbot.command.commands.development.GetIdCommand;
 import com.toxicmenu.discordbot.command.commands.development.ServerStatsCommand;
 import com.toxicmenu.discordbot.command.commands.moderation.*;
 import com.toxicmenu.discordbot.command.impl.DefaultCommandRegistry;
-import com.toxicmenu.discordbot.listener.JoinEvent;
+import com.toxicmenu.discordbot.listener.GuildJoinListener;
+import com.toxicmenu.discordbot.listener.MessageReceivedListener;
 import com.toxicmenu.discordbot.listener.ReconnectListener;
 import com.toxicmenu.discordbot.mysql.SQLDatabaseConnection;
 import com.toxicmenu.log.SystemLogger;
@@ -108,7 +110,7 @@ public class ToxicBot {
 
             setJda(jda);
 
-            sqlDatabaseConnection = new SQLDatabaseConnection(new SQLDatabaseConnection.SQLConfiguration.MySQLConfiguration("toxicmenu.com", 3306, "toxicmenu", "toxicmenu", "und53HgnGcgRGBNy", true, 12));
+            sqlDatabaseConnection = new SQLDatabaseConnection(new SQLDatabaseConnection.SQLConfiguration.MySQLConfiguration("5.230.101.106", 3306, "toxicmenu", "toxicmenu", "SHAqNrb9desfStxG", true, 3));
             if (!sqlDatabaseConnection.connect()) {
                 System.err.println("Cant connect to mysql.");
                 System.err.println("Exiting!");
@@ -125,8 +127,9 @@ public class ToxicBot {
         }
 
         getJda().addEventListener(this.commandRegistry);
-        getJda().addEventListener(new JoinEvent());
+        getJda().addEventListener(new GuildJoinListener());
         getJda().addEventListener(new ReconnectListener());
+        getJda().addEventListener(new MessageReceivedListener());
         registerCommands();
 
         getTerminal().writeMessage("Successfully started!");
@@ -147,6 +150,7 @@ public class ToxicBot {
         this.commandRegistry.registerCommand(new StaffCommand());
         this.commandRegistry.registerCommand(new InfoCommand());
         this.commandRegistry.registerCommand(new LicenseCommand());
+        this.commandRegistry.registerCommand(new VerifyCommand());
         commandListCommand.initialize();
     }
 }

@@ -97,7 +97,7 @@ public class LicenseCommand extends Command {
 
                     sendPrivateMessage(member.getUser(), messageEmbed);
                 } catch(Exception ex) {
-                    sendPrivateMessage(member.getUser(), MSGS.warn().setDescription("Ooops an error occured! \n Error: `" + ex.getMessage() + "`").build());
+                    sendPrivateMessage(member.getUser(), MSGS.warn().setDescription("Ooops an error occured! \n Error: `" + ex.getMessage() + "` \n Please report them to our Team!").build());
                 }
             }
 
