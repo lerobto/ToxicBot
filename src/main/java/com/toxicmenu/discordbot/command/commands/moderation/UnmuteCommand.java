@@ -6,25 +6,19 @@ import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.managers.GuildController;
-import net.dv8tion.jda.core.managers.GuildManager;
 
 import java.awt.*;
 
-public class MuteCommand extends Command {
-    public MuteCommand() {
-        super("mute", "<@User#XXXX> <Reason>", "This Command can mute users. Only usable as Moderator");
+public class UnmuteCommand extends Command {
+
+    public UnmuteCommand() {
+        super("unmute", "<@User#XXXX>", "This Command can unban users. Only usable as Moderator");
     }
 
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
         if (args.length == 1 || args.length == 2) {
             Member member = message.getMember();
-            String reason = "No Reason";
-
-            if(args.length == 2) {
-                reason = args[1];
-            }
 
             if(!ToxicUser.isTeam(member, message)) {
                 return null;
@@ -48,27 +42,22 @@ public class MuteCommand extends Command {
                 message.getTextChannel().sendMessage(messageEmbed).complete();
             }
 
-            final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.GREEN).setTitle("Information - Mute")
-                    .setFooter("Muted from " + message.getAuthor().getName(), null);
+            final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.GREEN).setTitle("Information - Unmuted")
+                    .setFooter("Unbanned from " + message.getAuthor().getName(), null);
             embedBuilder.addField("Name: ",
                     target.getUser().getName(), false);
             embedBuilder.addField("Status: ",
                     "Done", false);
-            embedBuilder.addField("Duration: ",
-                    "Unlimited", false);
-            embedBuilder.addField("Reason: ",
-                    reason, false);
             final MessageEmbed messageEmbed = embedBuilder.build();
 
             message.getTextChannel().sendMessage(messageEmbed).complete();
 
             //ToxicBot.getTerminal().writeMessage("");
 
-            Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
-            guild.getController().addSingleRoleToMember(target, guild.getRoleById("467123966096441384")).queue();
+            sendPrivateMessage(target.getUser(), "You have been unbanned from the ToxicMenu Discord Server!");
 
-            sendPrivateMessage(target.getUser(), "You have been muted on the ToxicMenu Discord Server!");
-            sendPrivateMessage(target.getUser(), "Reason: " + reason);
+            Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
+            guild.getController().removeSingleRoleFromMember(target, guild.getRoleById("467123966096441384")).queue();
 
             return CommandResponse.ACCEPTED;
         } else {

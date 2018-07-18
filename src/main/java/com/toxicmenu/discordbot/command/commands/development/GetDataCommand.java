@@ -31,6 +31,13 @@ public class GetDataCommand extends Command {
 
             sendPrivateMessage(message.getAuthor(), messageEmbed);
 
+            /*for(Role role : message.getMember().getGuild().getRoles()) {
+                if(role.getName().equals("Muted")) {
+                    sendPrivateMessage(message.getAuthor(), "LongID: " + role.getIdLong());
+                    sendPrivateMessage(message.getAuthor(), "ID: " + role.getId());
+                }
+            }*/
+
             return CommandResponse.ACCEPTED;
         } else {
             return CommandResponse.SYNTAX_PRINTED;

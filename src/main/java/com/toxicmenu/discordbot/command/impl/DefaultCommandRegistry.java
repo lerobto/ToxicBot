@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DefaultCommandRegistry extends ListenerAdapter implements CommandRegistry {
 
-    private static final String PREFIX = ".";
+    private static final String PREFIX = "!";
     private List<Command> commands = new ArrayList<>();
 
     @Override
