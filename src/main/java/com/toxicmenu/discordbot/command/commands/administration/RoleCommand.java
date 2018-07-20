@@ -90,6 +90,10 @@ public class RoleCommand extends Command {
 
                     sendPrivateMessage(target.getGuild().getMemberById("234282812818063361").getUser(), messageEmbed);
                     sendPrivateMessage(target.getGuild().getMemberById("279349790045765632").getUser(), messageEmbed);
+
+                    if(role.getName().equalsIgnoreCase("Supporters") || (role.getName().equalsIgnoreCase("Moderators") || (role.getName().equalsIgnoreCase("Admins") || (role.getName().equalsIgnoreCase("Staff") || (role.getName().equalsIgnoreCase("YouTubers")))))) {
+                        sendPrivateMessage(target.getUser(), MSGS.success().setDescription("Hey **" + target.getUser().getName() + "**\n Congratulations to the rank **" + role.getName() + "**!").build());
+                    }
                 }
             } else if(target.getRoles().contains(role)) {
                 try {
