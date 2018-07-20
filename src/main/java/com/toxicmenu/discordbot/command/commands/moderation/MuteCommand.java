@@ -5,6 +5,7 @@ import com.toxicmenu.discordbot.api.MSGS;
 import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
+import com.toxicmenu.discordbot.mysql.UserAPI;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.managers.GuildController;
@@ -19,16 +20,16 @@ public class MuteCommand extends Command {
 
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
+        if(!ToxicUser.isTeam(message.getMember(), message)) {
+            return null;
+        }
+
         if (args.length == 1 || args.length == 2) {
             Member member = message.getMember();
             String reason = "No Reason";
 
             if(args.length == 2) {
                 reason = args[1];
-            }
-
-            if(!ToxicUser.isTeam(message.getMember(), message)) {
-                return null;
             }
 
             Member target = null;
@@ -71,15 +72,22 @@ public class MuteCommand extends Command {
             //ToxicBot.getTerminal().writeMessage("");
 
             Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
-            guild.getController().addSingleRoleToMember(target, guild.getRoleById("467123966096441384")).queue();
+            guild.getController().addSingleRoleToMember(target, guild.getRoleById("469687618242871307")).queue();
+
+            UserAPI user = new UserAPI(target.getUser().getId());
+
+            if(user.userExists()) {
+                user.set("muted", "true");
+            } else {
+                user.create();
+                user.set("muted", "true");
+            }
 
             sendPrivateMessage(target.getUser(), "You have been muted on the ToxicMenu Discord Server!");
             sendPrivateMessage(target.getUser(), "Reason: " + reason);
 
             return CommandResponse.ACCEPTED;
         } else {
-            ToxicUser.isTeam(message.getMember(), message);
-
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

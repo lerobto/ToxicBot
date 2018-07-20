@@ -4,6 +4,7 @@ import com.toxicmenu.discordbot.ToxicBot;
 import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
+import com.toxicmenu.discordbot.mysql.UserAPI;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 
@@ -17,13 +18,11 @@ public class UnmuteCommand extends Command {
 
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
+        if(!ToxicUser.isTeam(message.getMember(), message)) {
+            return null;
+        }
+
         if (args.length == 1 || args.length == 2) {
-            Member member = message.getMember();
-
-            if(!ToxicUser.isTeam(message.getMember(), message)) {
-                return null;
-            }
-
             Member target = null;
 
             for (Member members : message.getMentionedMembers()) {
@@ -54,17 +53,22 @@ public class UnmuteCommand extends Command {
 
             //ToxicBot.getTerminal().writeMessage("");
 
+            UserAPI user = new UserAPI(target.getUser().getId());
+
+            if(user.userExists()) {
+                user.set("muted", "false");
+            } else {
+                user.create();
+                user.set("muted", "false");
+            }
+
             sendPrivateMessage(target.getUser(), "You have been unmuted from the ToxicMenu Discord Server!");
 
             Guild guild = ToxicBot.getJda().getGuildById("431909941138161674");
-            guild.getController().removeSingleRoleFromMember(target, guild.getRoleById("467123966096441384")).queue();
+            guild.getController().removeSingleRoleFromMember(target, guild.getRoleById("469687618242871307")).queue();
 
             return CommandResponse.ACCEPTED;
         } else {
-            if(!ToxicUser.isTeam(message.getMember(), message)) {
-                return null;
-            }
-
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

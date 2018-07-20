@@ -44,7 +44,7 @@ public class ToxicBot {
     @Getter
     private CommandRegistry commandRegistry;
     @Getter
-    private static boolean debug, devMode, closed = false;
+    private static boolean debug, devMode, test, closed = false;
     @Getter
     private static long startTime;
     @Getter
@@ -72,8 +72,8 @@ public class ToxicBot {
         commandRegistry = new DefaultCommandRegistry();
 
         instance = this;
-        version = "v1.0.1-DEV"; //TODO: Change version every Update
-        lastBuild = "18. July 2018 16:10:30";
+        version = "v1.0.3-DEV"; //TODO: Change version every Update
+        lastBuild = "19. July 2018 22:03:00";
         CommandLine cmd;
         Options options = new Options();
         //options.addOption(Option.builder().argName("COMMAND_TEMPLATE").longOpt("COMMAND_TEMPLATE").desc("COMMAND_DESCRIPTION").hasArg(false).required(false).build());
@@ -103,7 +103,7 @@ public class ToxicBot {
             JDABuilder bot = new JDABuilder(AccountType.BOT);
             bot.setToken("NDY3MDg4MDkzMDMyMjE4NjQ0.DilhMw.OPu2a1HaLUhdpTsjw_KaO5QJHzk");
 
-            bot.setGame(Game.streaming("Play with ToxicMenu 1.8", "https://www.twitch.tv/ToxicJohnTV"));
+            bot.setGame(Game.streaming("Play with ToxicMenu 1.8-Alpha", "https://www.twitch.tv/ToxicJohnTV"));
 
             JDA jda = bot.buildAsync();
             jda.setAutoReconnect(true);
@@ -112,9 +112,9 @@ public class ToxicBot {
 
             sqlDatabaseConnection = new SQLDatabaseConnection(new SQLDatabaseConnection.SQLConfiguration.MySQLConfiguration("5.230.101.106", 3306, "toxicmenu", "toxicmenu", "SHAqNrb9desfStxG", true, 3));
             if (!sqlDatabaseConnection.connect()) {
-                System.err.println("Cant connect to mysql.");
-                System.err.println("Exiting!");
-                System.exit(-1);
+                getTerminal().writeMessage("Cant connect to mysql.");
+                getTerminal().writeMessage("Exiting!");
+                shutdown();
                 return;
             }
         } catch (Exception e) {

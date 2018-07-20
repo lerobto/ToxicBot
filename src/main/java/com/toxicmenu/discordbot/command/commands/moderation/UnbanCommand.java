@@ -17,12 +17,12 @@ public class UnbanCommand extends Command {
 
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
+        if(!ToxicUser.checkAdmin(message.getMember(), message)) {
+            return null;
+        }
+
         if (args.length == 1 || args.length == 2) {
             Member member = message.getMember();
-
-            if(!ToxicUser.isTeam(message.getMember(), message)) {
-                return null;
-            }
 
             Member target = null;
 
@@ -61,10 +61,6 @@ public class UnbanCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
-            if(!ToxicUser.isTeam(message.getMember(), message)) {
-                return null;
-            }
-
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

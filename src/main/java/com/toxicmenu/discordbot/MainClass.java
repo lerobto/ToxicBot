@@ -1,6 +1,7 @@
 package com.toxicmenu.discordbot;
 
 import com.toxicmenu.discordbot.api.ToxicChannel;
+import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.log.JettySystemLogger;
 import com.toxicmenu.log.SystemLogger;
 import com.toxicmenu.terminal.JLineTerminal;
@@ -19,12 +20,13 @@ public class MainClass {
         }
         ToxicBot.getTerminal().install();
         ToxicBot.logger = new SystemLogger();
-        Log.setLog((org.eclipse.jetty.util.log.Logger)new JettySystemLogger("jetty"));
+        Log.setLog(new JettySystemLogger("jetty"));
         if (!"UTF-8".equalsIgnoreCase(System.getProperty("file.encoding"))) {
             ToxicBot.getTerminal().writeMessage("Changing default file-encoding to UTF-8");
             System.setProperty("file.encoding", "UTF-8");
         }
         new ToxicBot(args);
+        ToxicUser.bypass = new ArrayList<>();
         ToxicChannel.whitelist = new ArrayList<>();
     }
 }

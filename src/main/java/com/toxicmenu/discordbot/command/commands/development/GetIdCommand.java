@@ -18,13 +18,12 @@ public class GetIdCommand extends Command {
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
         Member member = message.getMember();
+        if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
+            message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
+            return null;
+        }
 
         if (args.length == 1) {
-            if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
-                return null;
-            }
-
             try {
                 final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.WHITE).setTitle("Rank Data")
                         .setFooter("Rank: " + args[0], null);
@@ -48,11 +47,6 @@ public class GetIdCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
-            if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage("You have no permissions to execute this Command!").complete();
-                return null;
-            }
-
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

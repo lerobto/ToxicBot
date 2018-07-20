@@ -46,7 +46,7 @@ public class SQLDatabaseConnection {
             this.driverSupported = true;
         }
         catch (ClassNotFoundException e) {
-            System.err.println("Drivers " + config.getDriverClass() + " not found.");
+            ToxicBot.getTerminal().writeMessage("Drivers " + config.getDriverClass() + " not found.");
             this.driverSupported = false;
         }
         this.config = config;
@@ -66,7 +66,7 @@ public class SQLDatabaseConnection {
             ++i;
         }
         this.connections = new LoopedIterator<AvariableConnection>(cons);
-        System.out.println("Loaded successfull " + cons.length + " connections!");
+        ToxicBot.getTerminal().writeMessage("Loaded successfull " + cons.length + " connections!");
     }
 
     protected Connection createRawNewConnection() throws SQLException {
@@ -179,11 +179,11 @@ public class SQLDatabaseConnection {
         }
         catch (Exception e) {
             if (e instanceof CommunicationsException || e instanceof MySQLNonTransientConnectionException || e instanceof SQLException && e.toString().contains("Could not retrieve transation read-only status server")) {
-                System.err.println("Having mysql disconnect! (Index: " + connection.getConnectionIndex() + ")");
+                ToxicBot.getTerminal().writeMessage("Having mysql disconnect! (Index: " + connection.getConnectionIndex() + ")");
                 connection.invalidConnection();
                 return;
             }
-            System.err.println("Cant applay action to connection " + connection);
+            ToxicBot.getTerminal().writeMessage("Cant applay action to connection " + connection);
             e.printStackTrace();
         }
         connection.setUsed(false);

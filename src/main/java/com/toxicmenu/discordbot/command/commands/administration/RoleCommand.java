@@ -17,12 +17,12 @@ public class RoleCommand extends Command {
     public CommandResponse triggerCommand(Message message, String[] args) {
         Member member = message.getMember();
 
-        if (args.length == 2) {
-            if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
-                return null;
-            }
+        if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
+            message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
+            return null;
+        }
 
+        if (args.length == 2) {
             Member target = null;
             Role role = null;
 
@@ -128,11 +128,6 @@ public class RoleCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
-            if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
-                return null;
-            }
-
             return CommandResponse.SYNTAX_PRINTED;
         }
     }

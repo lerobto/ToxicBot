@@ -2,6 +2,7 @@ package com.toxicmenu.discordbot.command.commands;
 
 import com.toxicmenu.discordbot.ToxicBot;
 import com.toxicmenu.discordbot.api.MSGS;
+import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
 import net.dv8tion.jda.core.entities.Message;
@@ -15,6 +16,10 @@ public class InfoCommand extends Command {
 
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
+        if(!ToxicUser.checkDev(message.getMember(), message, false)) {
+            return null;
+        }
+
         if (args.length == 0) {
             MessageEmbed messageEmbed = MSGS.block().setColor(Color.BLUE).addField("Name: ", "`ToxicBot`", false).addField("Version: ", "`" + ToxicBot.getVersion() + "`", false).addField("Last Build: ", "`" + ToxicBot.getLastBuild() + "`", false).build();
 

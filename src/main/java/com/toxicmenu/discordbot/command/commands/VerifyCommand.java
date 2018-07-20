@@ -2,6 +2,7 @@ package com.toxicmenu.discordbot.command.commands;
 
 import com.toxicmenu.discordbot.api.MSGS;
 import com.toxicmenu.discordbot.api.ToxicGenerator;
+import com.toxicmenu.discordbot.api.ToxicUser;
 import com.toxicmenu.discordbot.command.Command;
 import com.toxicmenu.discordbot.command.CommandResponse;
 import com.toxicmenu.discordbot.mysql.LicenseAPI;
@@ -22,6 +23,10 @@ public class VerifyCommand extends Command {
     @Override
     public CommandResponse triggerCommand(Message message, String[] args) {
         Member member = message.getMember();
+
+        if(!ToxicUser.checkDev(message.getMember(), message, false)) {
+            return null;
+        }
 
         if (args.length == 0) {
             try {

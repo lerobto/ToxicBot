@@ -17,12 +17,12 @@ public class ServerStatsCommand extends Command {
     public CommandResponse triggerCommand(Message message, String[] args) {
         Member member = message.getMember();
 
-        if (args.length == 0) {
-            if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
-                return null;
-            }
+        if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
+            message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
+            return null;
+        }
 
+        if (args.length == 0) {
             final EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.WHITE).setTitle("Server Informations")
                     .setFooter("Server: " + member.getGuild().getName(), null);
             addInfoToMessageEmbed(embedBuilder, member.getGuild());
@@ -39,11 +39,6 @@ public class ServerStatsCommand extends Command {
 
             return CommandResponse.ACCEPTED;
         } else {
-            if(!(member.getUser().getId().equalsIgnoreCase("234282812818063361") || (member.getUser().getId().equalsIgnoreCase("279349790045765632")))) {
-                message.getTextChannel().sendMessage(MSGS.error().setDescription("You have no permissions to execute this Command!").build()).complete();
-                return null;
-            }
-
             return CommandResponse.SYNTAX_PRINTED;
         }
     }
